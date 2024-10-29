@@ -26,6 +26,7 @@ class UsuarioController extends Controller
 
             //obtener el valor de la id de usuario
             Session::put('id', $usuario->id);
+            Session::put('carrito', []);
 
             //obtener el valor del id vendedor donde es igual al del ususario
             $tipo = DB::table('vendedors')
@@ -95,7 +96,7 @@ class UsuarioController extends Controller
                 'idUsuario' => $idUsuario,
             ]);
         } elseif ($request->input('tipo_usuario') === 'vendedor') {
-            DB::table('vendedores')->insert([
+            DB::table('vendedors')->insert([
                 'aniosAntiguedad' => 0,
                 'transaccionesRealizo' => 0,
                 'idPersona' => $idPersona,

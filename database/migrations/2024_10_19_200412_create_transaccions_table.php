@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('Cantidad');
             $table->timestamp('fecha');
             $table->unsignedBigInteger('idVendedor');
+            $table->string('estado');
             $table->timestamps();
 
             $table->foreign('idComprador')->references('id')->on('compradors')->onDelete('cascade');

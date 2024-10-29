@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VinoController;
+use App\Models\Vvino;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,15 +35,65 @@ Route::get('welcomeC', [VinoController::class, 'indexC'])->name('welcomeComprado
 //ruta agregar productos
 Route::post('productos', [VinoController::class, 'agregar'])->name('vino.agregar');
 //ruta pedidos
-Route::view('pedidos', 'pedidos')->name('pedidos');
+Route::get('/pedidos', [VinoController::class, 'pedidosV'])->name('pedidosV');
 //ruta que muestra cada producto individual
 Route::get('/welcome/{vino}', [VinoController::class, 'show'])->name('mostrar');
+//ruta que muestra cada producto individual del comprador
+Route::get('/welcomeC/{vino}', [VinoController::class, 'showC'])->name('mostrarC');
 // productos.editar
 Route::post('productosEditar', [VinoController::class, 'editarVino'])->name('productos.editar');
 //ruta que muestra vista de edicion de producto individual
 Route::get('/productos/{vino}', [VinoController::class, 'editShow'])->name('editar');
-//
+//vista de pagos o carrito
 Route::view('pagos', 'pago')->name('pagosVista');
+//ruta que muestra vista de pago de producto individual
+Route::get('/pagos/{vino}', [VinoController::class, 'pago'])->name('pagoVino');
+//ruta que confirma que la transaccion esta en proceso
+Route::post('/confirmacion', [VinoController::class, 'transaccion'])->name('confirmacion');
+//ruta que aprueba una transaccion
+Route::post('/aprobado/{transaccion}', [VinoController::class, 'aprobarTransaccion'])->name('aprobar.transaccion');
+//historial vendedor
+Route::get('/historial', [VinoController::class, 'historial'])->name('historial');
+//historial comprador
+Route::get('/historialC', [VinoController::class, 'historialC'])->name('historialC');
+//historial comprador
+Route::get('/pedidosC', [VinoController::class, 'pedidosC'])->name('pedidosC');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//metodo que agrega productos al carrrito
+Route::get('/carrito/{vino}', function (Vvino $vino) {
+    //
+    $detalleVino = [
+        'id' => $vino,
+        'nombre' => 'Vino ' . $vino->nombre,
+    ];
+
+    $carrito[] = $detalleVino;
+
+    Session::put(['carrito' => $detalleVino]);
+
+    dd(Session::get('carrito'));
+    //  
+})->name('agregarCarrito');
+
+
+
+
+
+
 
 
 
@@ -58,8 +110,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-//historial de transacciones -a
-//pedidos -a                             la tabla tiene la columa estado aparte de las de la tabla transacciones
-//carrito c
-//fotos y evitar la navegacion por url
+
+//carrito
+//fotos, css y evitar la navegacion por url
 //botones de filtraciones de productos

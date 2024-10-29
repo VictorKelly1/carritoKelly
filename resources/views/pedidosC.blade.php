@@ -1,5 +1,5 @@
-<x-layout meta-title="Pedidos" meta-description="Pedidos">
-    <h1>Pedidos de clientes</h1>
+<x-layoutC meta-title="Pedidos" meta-description="Pedidos">
+    <h1>Pedidos en espera</h1>
     {{-- pedidos.blade.php --}}
     {{-- pedidos.blade.php --}}
     <table style="border-collapse: collapse; width: 100%;">
@@ -25,12 +25,7 @@
                     <td style="border: 1px solid black;">{{ $transaccion->fecha }}</td>
                     <td style="border: 1px solid black;">{{ $transaccion->nombreVendedor }}</td>
                     <td style="border: 1px solid black;">{{ $transaccion->apellidoVendedor }}</td>
-                    <td style="border: 1px solid black;">
-                        <form action="/aprobado/{{ $transaccion->idTransaccion }}" method="POST">
-                            @csrf
-                            <button type="submit">Aprobar</button>
-                        </form>
-                    </td>
+                    <td style="border: 1px solid black;">En espera</td>
                 </tr>
             @endforeach
         </tbody>
@@ -38,5 +33,4 @@
 
 
 
-</x-layout>
-{{-- {{ $transaccion->nombreComprador }} . ' ' . $transaccion->apellidoComprador --}}
+</x-layoutC>

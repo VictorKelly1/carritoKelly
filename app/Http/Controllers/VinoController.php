@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Transaccion;
+use App\Models\Vendedor;
 use App\Models\Vino;
+use App\Models\Vtransaccion;
 use App\Models\Vvino;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -35,6 +39,49 @@ class VinoController extends Controller
         return view('welcome', ['vinos' => $vinos]);
     }
 
+    public function pedidosV()
+    {
+
+        $transacciones = DB::table('vtransaccions')
+            ->where('estado', 'Sin aprobar')
+            ->where('idVendedor', Session::get('id')) // Suponiendo que 'idVendedor' es la columna a comparar
+            ->get();
+
+        return view('pedidos', ['transaccions' => $transacciones]);
+    }
+
+    public function pedidosC()
+    {
+
+        $transacciones = DB::table('vtransaccions')
+            ->where('estado', 'Sin aprobar')
+            ->where('idComprador', Session::get('id')) // Suponiendo que 'idVendedor' es la columna a comparar
+            ->get();
+
+        return view('pedidosC', ['transaccions' => $transacciones]);
+    }
+
+
+    public function aprobarTransaccion(Vtransaccion $transaccion)
+    {
+        //
+
+        $nuevaT = Transaccion::findOrFail($transaccion->idTransaccion);
+        $nuevaT->estado = 'Aprobado';
+        $nuevaT->save();
+
+        $sumarTransaccion = Vendedor::findOrFail(session::get('id'));
+        $sumarTransaccion->TransaccionesRealizo++;
+        $sumarTransaccion->save();
+
+        $transacciones = DB::table('vtransaccions')
+            ->where('estado', 'Sin aprobar')
+            ->where('idVendedor', Session::get('id')) // Suponiendo que 'idVendedor' es la columna a comparar
+            ->get();
+
+        return view('pedidos', ['transaccions' => $transacciones]);
+    }
+
     public function agregar(Request $request) //mostrarVinos del vendedor request(); //se usa para acceder a los datos del formulario html 
     {
         //
@@ -57,6 +104,12 @@ class VinoController extends Controller
     {
         // se crea una carpeta vinos y una vista dinamica show dentro  y se le pasa un array de arrays como parametro
         return view('vinos.show', ['vino' => $vino]);
+    }
+
+    public function showC(Vvino $vino) //typeHints
+    {
+        // se crea una carpeta vinos y una vista dinamica show dentro  y se le pasa un array de arrays como parametro
+        return view('vinos.showC', ['vino' => $vino]);
     }
 
     public function editShow(Vvino $vino) //typeHints
@@ -93,5 +146,57 @@ class VinoController extends Controller
 
 
         return to_route('welcome');
+    }
+
+    public function pago(Vvino $vino) //typeHints
+    {
+
+        return view('vinos.pago', ['vino' => $vino]);
+    }
+
+    public function transaccion(Request $request)
+    {
+        //
+        $transaccion = new Transaccion();
+        $transaccion->idComprador = session::get('id');
+        $transaccion->idVino = $request->input('idVino');
+        $transaccion->Cantidad = $request->input('cantidad');
+        $transaccion->fecha = date('Y-m-d H:i:s', time());
+        $transaccion->idVendedor = $request->input('idVendedor');
+        $transaccion->estado = 'Sin aprobar';
+        $transaccion->save();
+
+
+        $stock = Vino::findOrFail($request->input('idVino'));
+        //operacion del nuevo stock
+        $nuevo = $stock->cantidadDisp - $request->input('cantidad');
+        $stock->cantidadDisp = $nuevo;
+        $stock->save();
+
+
+
+        return view('confirmacion');
+    }
+
+    public function historial(Request $request)
+    {
+        //
+        $transacciones = DB::table('vtransaccions')
+            ->where('estado', 'Aprobado')
+            ->where('idVendedor', Session::get('id')) // Suponiendo que 'idVendedor' es la columna a comparar
+            ->get();
+
+        return view('historial', ['transaccions' => $transacciones]);
+    }
+
+    public function historialC(Request $request)
+    {
+        //
+        $transacciones = DB::table('vtransaccions')
+            ->where('estado', 'Aprobado')
+            ->where('idComprador', Session::get('id')) // Suponiendo que 'idVendedor' es la columna a comparar
+            ->get();
+
+        return view('historialC', ['transaccions' => $transacciones]);
     }
 }

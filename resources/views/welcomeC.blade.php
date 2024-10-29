@@ -10,21 +10,21 @@
             {{ $vino->apellidoVendedor }}.&nbsp;
             {{ $vino->aniosAntiguedad }} &nbsp; Años de antiguedad.
             {{ $vino->TransaccionesRealizo }} Transacciones Realizadas.</p>
-        <a href="/welcome/{{ $vino->idVino }}">Ver mas</a>
-        <button type="#">Agregar al carrito</button>
+        <a href="/welcomeC/{{ $vino->idVino }}">Ver mas</a>
+        <a href="/carrito/{{ $vino->idVino }}">Agregar al carrito</a>
         <br />
         <br />
     @endforeach
 
-    <div class="carrito-sidebar" [class.active]="carritoVisible">
+    {{-- <div class="carrito-sidebar" [class.active]="carritoVisible">
         <h3>Carrito de compras</h3>
         <ul>
             <li *ngFor="let producto of productosCarrito">
-                {{-- {{ producto . nombre }} - {{ (producto . precio) | currency }}   --}}
+                {{-- {{ producto . nombre }} - {{ (producto . precio) | currency }}   
             </li>
         </ul>
         <button (click)="irAPagar()">Ir a Pagar</button>
     </div>
-    <button class="toggle-carrito" (click)="toggleCarrito()">🛒</button>
+    <button class="toggle-carrito" (click)="toggleCarrito()">🛒</button> --}}
 
 </x-layoutC>
