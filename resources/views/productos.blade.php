@@ -1,7 +1,19 @@
 <x-layout meta-title="Productos" meta-description="productos">
-    <h1>Productos</h1>
+    <h1>Mis productos</h1>
+    <div class="productos-container">
+        @foreach ($vinos as $vino)
+            <div class="producto">
+                <h2>Nombre: {{ $vino->nombre }}</h2>
+                <p>Tipo: {{ $vino->tipo }}</p>
+                <p>Año: {{ $vino->anio }}</p>
+                <p>Precio: {{ $vino->precio }}</p>
+                <p>Stock: {{ $vino->cantidadDisp }}</p>
+                <a href="/productos/{{ $vino->id }}">Editar</a>
+            </div>
+        @endforeach
+    </div>
     <h2>Agrega un producto nuevo:</h2>
-    <form action="{{ route('vino.agregar') }}" method="POST">
+    <form action="{{ route('vino.agregar') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div>
             <label for="nombre">Nombre:</label>
@@ -23,38 +35,14 @@
             <label for="stock">Stock:</label>
             <input type="number" id="stock" name="stock" min="0" required>
         </div>
-        <label for="foto">Selecciona una foto:</label><br />
-        <input type="file" id="foto" name="foto" accept="image/*">
+        <div>
+            <label for="foto">Selecciona una foto:</label><br />
+            <input type="file" id="foto" name="foto" accept="image/*">
+        </div>
         <div>
             <button type="submit">Agregar</button>
         </div>
     </form>
 
-    @foreach ($vinos as $vino)
-        <div style="display: flex; aling-items: baseline">
-            <h2>Nombre: {{ $vino->nombre }}&nbsp;
-                Tipo: {{ $vino->tipo }}&nbsp;
-                Año: {{ $vino->anio }}&nbsp;
-                Precio: {{ $vino->precio }}&nbsp;
-                Stock: {{ $vino->cantidadDisp }}&nbsp;</h2>
 
-        </div>
-        <a href="/productos/{{ $vino->id }}">Editar</a>
-    @endforeach
 </x-layout>
-
-
-
-{{-- @foreach ($vinos as $vino)
-        <p>Nombre: {{ $vino->nombreVino }}&nbsp;
-            Tipo: {{ $vino->tipo }}&nbsp;
-            Año: {{ $vino->anio }}&nbsp;
-            Precio: {{ $vino->precio }}&nbsp;
-            Stock: {{ $vino->cantidadDisp }}&nbsp;</p>
-        <p>Proovedor: {{ $vino->nombreVendedor }}&nbsp;
-            {{ $vino->apellidoVendedor }}&nbsp;
-            {{ $vino->aniosAntiguedad }} &nbsp; Años de antiguedad.
-            {{ $vino->TransaccionesRealizo }} Transacciones Realizadas.</p>
-        <br />
-        <br />
-    @endforeach --}}

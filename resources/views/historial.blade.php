@@ -30,7 +30,4 @@
             @endforeach
         </tbody>
     </table>
-
-
-
 </x-layout>

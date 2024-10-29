@@ -1,31 +1,29 @@
 <x-layout meta-title="Pedidos" meta-description="Pedidos">
     <h1>Pedidos de clientes</h1>
-    {{-- pedidos.blade.php --}}
-    {{-- pedidos.blade.php --}}
-    <table style="border-collapse: collapse; width: 100%;">
+    <table>
         <thead>
             <tr>
-                <th style="border: 1px solid black;">Nombre Comprador</th>
-                <th style="border: 1px solid black;">Apellido Comprador</th>
-                <th style="border: 1px solid black;">Nombre Vino</th>
-                <th style="border: 1px solid black;">Cantidad</th>
-                <th style="border: 1px solid black;">Fecha</th>
-                <th style="border: 1px solid black;">Nombre Vendedor</th>
-                <th style="border: 1px solid black;">Apellido Vendedor</th>
-                <th style="border: 1px solid black;">Aprobar</th>
+                <th>Nombre Comprador</th>
+                <th>Apellido Comprador</th>
+                <th>Nombre Vino</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+                <th>Nombre Vendedor</th>
+                <th>Apellido Vendedor</th>
+                <th>Aprobar</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($transaccions as $transaccion)
                 <tr>
-                    <td style="border: 1px solid black;">{{ $transaccion->nombreComprador }}</td>
-                    <td style="border: 1px solid black;">{{ $transaccion->apellidoComprador }}</td>
-                    <td style="border: 1px solid black;">{{ $transaccion->nombreVino }}</td>
-                    <td style="border: 1px solid black;">{{ $transaccion->Cantidad }}</td>
-                    <td style="border: 1px solid black;">{{ $transaccion->fecha }}</td>
-                    <td style="border: 1px solid black;">{{ $transaccion->nombreVendedor }}</td>
-                    <td style="border: 1px solid black;">{{ $transaccion->apellidoVendedor }}</td>
-                    <td style="border: 1px solid black;">
+                    <td>{{ $transaccion->nombreComprador }}</td>
+                    <td>{{ $transaccion->apellidoComprador }}</td>
+                    <td>{{ $transaccion->nombreVino }}</td>
+                    <td>{{ $transaccion->Cantidad }}</td>
+                    <td>{{ $transaccion->fecha }}</td>
+                    <td>{{ $transaccion->nombreVendedor }}</td>
+                    <td>{{ $transaccion->apellidoVendedor }}</td>
+                    <td>
                         <form action="/aprobado/{{ $transaccion->idTransaccion }}" method="POST">
                             @csrf
                             <button type="submit">Aprobar</button>
@@ -35,8 +33,6 @@
             @endforeach
         </tbody>
     </table>
-
-
-
 </x-layout>
+
 {{-- {{ $transaccion->nombreComprador }} . ' ' . $transaccion->apellidoComprador --}}

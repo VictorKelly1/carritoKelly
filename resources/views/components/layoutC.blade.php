@@ -8,7 +8,7 @@
     <title>{{ $metaTitle ?? 'Default' }}</title>
     <meta name="description" content="{{ $metadescription ?? 'Default description ' }}" />
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="resources\css\styles.css">
+    <link rel="stylesheet" href="{{ asset('build/assets/styles.css') }}">
 
 
     <title></title>
